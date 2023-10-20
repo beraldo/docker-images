@@ -32,17 +32,17 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Some suggested debug packages and other useful stuff
-RUN apt-get update \
-    && apt-get install -y \
-        ca-certificates \
-        curl \
-        wget \
-        git \
-        vim \
-        less \
-        iputils-ping \
-        inetutils-telnet \
-    && rm -rf /var/lib/apt/lists/* /tmp/*
+# RUN apt-get update \
+#     && apt-get install -y \
+#         ca-certificates \
+#         curl \
+#         wget \
+#         git \
+#         vim \
+#         less \
+#         iputils-ping \
+#         inetutils-telnet \
+#     && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Exposes ports 9000 (php-fpm) and 9003 (xdebug)
 EXPOSE 9000 9903
@@ -60,8 +60,10 @@ WORKDIR ${app_dir}
 # COPY ...
 COPY index.php index.php
 
+COPY docker-cmd.sh docker-cmd.sh
+
 # Run composer install
 # RUN COMPOSER_MEMORY_LIMIT=4096M XDEBUG_MODE=off composer install --no-interaction
 
 
-# CMD ./docker-cmd.sh
+CMD ./docker-cmd.sh
