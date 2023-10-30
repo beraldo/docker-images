@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    container_name: 'laravel-app-nginx'
+    image: laravel-app-nginx:latest
+    expose:
+      - "80"
+      - "443"
+    ports:
+      - "8000:80"
+    networks:
+      - laravel-app
+    volumes:
+      - ".:/app:delegated"
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    container_name: 'laravel-app-php'
+    image: laravel-app-php:latest
+    expose:
+      - "9000"
+      - "9003"
+    networks:
+      - laravel-app
+    volumes:
+      - ".:/app:delegated"
+
+
+networks:
+  laravel-app:
+    name: laravel-app
+    driver: bridge
